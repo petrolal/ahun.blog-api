@@ -24,16 +24,19 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain FilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(this.PERMIT_ALL).permitAll()
-                .anyRequest().authenticated())
+                        .requestMatchers(this.PERMIT_ALL).permitAll()
+                        .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
         return http.build();
     }
 
     @Bean
     JwtDecoder jwtDecoder() {
-        return new NimbusJwtDecoder
-                .WithPublicKey(RSAKeyConfig.publicKey())
-                .build();
+        return NimbusJwtDecoder.withPublicKey().build();
+    }
+
+    @Bean
+    JwtEncoder jwtEncoder() {
+
     }
 }
